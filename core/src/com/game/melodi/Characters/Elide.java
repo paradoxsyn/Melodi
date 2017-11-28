@@ -2,9 +2,14 @@ package com.game.melodi.Characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.game.melodi.Animations.AnimatedImage;
 import com.game.melodi.Melodi;
@@ -22,10 +27,10 @@ public class Elide extends Image {
     Image elide;
     Image board;
     BodyDef bd;
-    PhysicsShapeCache phybod;
     FixtureDef fd;
+    PolygonShape shape;
+    PhysicsShapeCache phybod;
     Body elideModel;
-
 
     public Elide(GameWorld world, Melodi game){
         // char is an Image, so we load the graphics from the assetmanager
@@ -35,8 +40,10 @@ public class Elide extends Image {
         elide = new Image(game.manager.get("elideonboard.png",Texture.class));
         board = new Image(game.manager.get("boardmove.png",Texture.class));
 
+        touchMove();
+
         elide.setSize(.75f,.75f);
-        //elide.setPosition(0,game.world.body.getPosition().y+.5f);
+        elide.setPosition(0,game.world.body.getPosition().y+.5f);
 
         board.setSize(.75f,.75f);
         //board.setPosition(elide.getX(),elide.getY()-.5f);
@@ -46,17 +53,50 @@ public class Elide extends Image {
         //TODO Make Elide's body
         bd = new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
-        bd.position.set(world.body.getPosition().x+1,world.body.getPosition().y+1f);
+        //needs to be dynamic
+        bd.position.set(world.body.getPosition().x+1,world.body.getPosition().y+1);
         elide.setPosition(bd.position.x,bd.position.y);
-        phybod = new PhysicsShapeCache(Gdx.files.internal("physics/elidephy.xml"));
         fd = new FixtureDef();
         fd.density = 2.5f;
-        fd.restitution = .75f;
-        fd.friction = 0.25f;
-        elideModel = game.world.world.createBody(bd);
-        elideModel.setUserData(elide);
-        phybod.createBody("elidephy",game.world.world,bd,1,1);
+        fd.restitution = 3f;
+        fd.friction = 3f;
+
+        phybod = new PhysicsShapeCache("physics/elidephy.xml");
+        elideModel = phybod.createBody("elideonboard",game.world.world,bd,1,1);
+        //elideModel.setTransform(1,1,0);
+
+
+        //shape = new PolygonShape();
+        //shape.setAsBox(.5f,.25f);
+        //shape.setRadius(0.5f);
+        //fd.shape = shape;
+
+        //elideModel = game.world.world.createBody(bd);
+        //elideModel.createFixture(fd);
+        //elideModel.setUserData(elide);
     }
+
+    public Body getBody(){
+        //return elideModel;
+        return null;
+    }
+
+    public void touchMove(){
+        elide.addListener(new InputListener(){
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("Testmove");
+                //return super.touchDown(event, x, y, pointer, button);
+                return true;
+            }
+
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                //elideModel.setTransform(elideModel.getPosition().x+1,elideModel.getPosition().y+1,0);
+                System.out.println("pressed up");
+                //super.touchUp(event, x, y, pointer, button);
+            }
+        });
+    }
+
 
     @Override
     public void act(float delta) {

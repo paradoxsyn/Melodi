@@ -1,9 +1,11 @@
 package com.game.melodi.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.codeandweb.physicseditor.PhysicsShapeCache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,7 @@ public class GameWorld {
     public static float UNIT_WIDTH = WIDTH/160; // 6.4 meters width
     public static float UNIT_HEIGHT = HEIGHT/160; // 3.75 meters height
 
-    public static final Vector2 GRAVITY = new Vector2(0, -9.8f);
+    public static final Vector2 GRAVITY = new Vector2(0, -6.8f);
 
     public final Stage stage; // stage containing game actors (not GUI, but actual game elements)
     public World world; // box2d world
@@ -44,10 +47,10 @@ public class GameWorld {
     public CircleShape shape;
 
     public GameWorld(){
+        Box2D.init();
         world = new World(GRAVITY, true);
         viewport = new FitViewport(UNIT_WIDTH,UNIT_HEIGHT); // set the game stage viewport to the meters size
         stage = new Stage(viewport); // create the game stage
-
         createWorld();
     }
 
@@ -57,6 +60,7 @@ public class GameWorld {
         //char = new char(this);
         //stage.addActor(char);
         // add more game elements here
+
         fixtures = new ArrayList<>();
         bd = new BodyDef();
 
@@ -70,15 +74,15 @@ public class GameWorld {
 
         //ball shape
         shape = new CircleShape();
-        shape.setRadius(1.5f);
+        shape.setRadius(1.0f);
 
         //fixture def ball
         fixdef = new FixtureDef();
         fixdef.shape = shape;
-        fixdef.density = 2.5f;
-        fixdef.friction = .25f;
-        fixdef.restitution = .75f;
-        body2 = world.createBody(bd);//.createFixture(fixdef);
+        fixdef.density = 1.5f;
+        fixdef.friction = 1.25f;
+        fixdef.restitution = .25f;
+        body2 = world.createBody(bd); //.createFixture(fixdef)
         //shape.dispose();
 
         //ground init

@@ -135,7 +135,7 @@ public class SongSelect extends ScreenAdapter {
                                    title = player.player.getTitle();
 
                                    game.setScreen(new Loader(game));
-
+                                   dispose();
 
                                }
                            });
@@ -168,6 +168,7 @@ public class SongSelect extends ScreenAdapter {
 
 
     public void dispose(){
-
+        game.stage.clear();
+        //game.stage.dispose();
     }
 }

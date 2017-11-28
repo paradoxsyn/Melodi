@@ -100,6 +100,9 @@ public class Test implements Screen {
         r = new ImmediateModeRenderer20(false,true,0);
         batch = new SpriteBatch();
 
+        System.out.println("TEST IS NOW ON");
+        Gdx.input.setInputProcessor(game.world.stage);
+
         img = new Texture("badlogic.jpg");
         sprite = new Sprite(img);
         sprite.setSize(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());

@@ -103,6 +103,7 @@ public class TerrainV2  {
         //debugcam = new OrthographicCamera(Gdx.graphics.getWidth()/PTM_RATIO,Gdx.graphics.getHeight()/PTM_RATIO);
         //cam.position.set(cam.viewportWidth/2f,cam.viewportHeight/2f,0);
         //debugcam.position.set(debugcam.viewportWidth/2f,debugcam.viewportHeight/2f,0);
+        game.world.stage.getCamera().position.x+=.5f;
         maxPhysics = Gdx.graphics.getWidth()/20;
         img = new Texture("badlogic.jpg");
         testimg = new Image(img);
@@ -329,6 +330,7 @@ public class TerrainV2  {
             game.world.fixtures.add(game.world.body.createFixture(shape,0));
         }
 
+        //this is test img ball
         game.world.body2.createFixture(game.world.fixdef);
         game.world.body2.setUserData(testimg);
 

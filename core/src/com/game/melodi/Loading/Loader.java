@@ -172,7 +172,9 @@ public class Loader extends ScreenAdapter {
         }else{
             System.out.println("finished loading, load lvl");
             game.setScreen(new Test(game));
+            //this is playing a seperate thread from the actual loaded song data
             game.playerstream.loadTrack(new File("furelise.mp3"),0,false);
+
         }
         // Update positions (and size) to match the percentage
         loadingBarHidden.setX(startX + endX * percent);
@@ -189,6 +191,11 @@ public class Loader extends ScreenAdapter {
     public void hide() {
         // Dispose the loading assets as we no longer need them
         game.manager.unload("loading.pack");
+    }
+
+    public void dispose(){
+        game.stage.clear();
+        game.stage.dispose();
     }
 
 
